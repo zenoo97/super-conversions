@@ -13,8 +13,7 @@
   <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
   <script type="text/babel">
     const root = document.querySelector("#root");
-
-    const App = () => {
+    const MinutesToHours = () => {
       const [amount, setAmount] = React.useState(0);
       const [inverted, setInverted] = React.useState(false);
       const onChange = (event) => {
@@ -27,7 +26,6 @@
       };
       return (
         <div>
-          <h1 className="hi">Super Converter</h1>
           <div>
             <label htmlFor="minutes">Minutes</label>
             <input
@@ -53,6 +51,66 @@
           </div>
           <button onClick={reset}>Reset</button>
           <button onClick={onFlip}>{inverted ? "Turn back" : "Invert"}</button>
+        </div>
+      );
+    };
+    const KmToMiles = () => {
+      const [number, setNumber] = React.useState(0);
+      const [flip, setFlip] = React.useState(false);
+      const onChangeTwo = (event) => {
+        setNumber(event.target.value);
+      };
+      const resetTwo = () => {
+        setNumber(0);
+      };
+      const flipTwo = () => {
+        setFlip((current) => !current);
+      };
+      return (
+        <div>
+          <h3>KM 2 M</h3>
+          <label htmlFor="km">Km</label>
+          <input
+            value={flip === true ? (number * 1.609).toFixed(6) : number}
+            id="km"
+            type="number"
+            onChange={onChangeTwo}
+            disabled={flip}
+          />
+          <h3>You want to convert {number}</h3>
+          <label htmlFor="mile">Mile</label>
+          <input
+            value={flip === false ? (number / 1.609).toFixed(6) : number}
+            id="mile"
+            type="number"
+            disabled={!flip}
+            onChange={onChangeTwo}
+          />
+          <div>
+            <button onClick={resetTwo}>Reset</button>
+            <button onClick={flipTwo}>Flip</button>
+          </div>
+        </div>
+      );
+    };
+
+    const App = () => {
+      const [index, setIndex] = React.useState("1");
+      const onSelect = (event) => {
+        setIndex(event.target.value);
+      };
+      return (
+        <div>
+          <h1 className="hi">Super Converter</h1>
+          <select value={index} onChange={onSelect}>
+            <option value="xx">Select your units</option>
+            <option value="0">Minutes & Hours</option>
+            <option value="1">Km * Miles</option>
+          </select>
+          <hr />
+          {index === "xx" ? "Please select your units" : null}
+          {index === "0" ? <MinutesToHours /> : null}
+          {index === "1" ? <KmToMiles /> : null}
         </div>
       );
     };
